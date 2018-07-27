@@ -32,6 +32,7 @@ Locust Documentation
     running-locust-distributed
     running-locust-without-web-ui
     running-locust-programmatically
+    increase-performance
 
 .. toctree ::
     :maxdepth: 4
