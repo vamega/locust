@@ -75,6 +75,7 @@ class RequestStats(object):
         self.entries = {}
         self.errors = {}
         self.total = StatsEntry(self, "Total", None, use_response_times_cache=True)
+        self.max_requests = None
         self.start_time = None
     
     @property
@@ -131,6 +132,7 @@ class RequestStats(object):
         self.total = StatsEntry(self, "Total", None, use_response_times_cache=True)
         self.entries = {}
         self.errors = {}
+        self.max_requests = None
         self.start_time = None
     
     def serialize_stats(self):
@@ -556,9 +558,13 @@ A global instance for holding the statistics. Should be removed eventually.
 
 def on_request_success(request_type, name, response_time, response_length, **kwargs):
     global_stats.log_request(request_type, name, response_time, response_length)
+    if global_stats.max_requests is not None and (global_stats.num_requests + global_stats.num_failures) >= global_stats.max_requests:
+        raise StopLocust("Maximum number of requests reached")
 
 def on_request_failure(request_type, name, response_time, exception, **kwargs):
     global_stats.log_error(request_type, name, exception)
+    if global_stats.max_requests is not None and (global_stats.num_requests + global_stats.num_failures) >= global_stats.max_requests:
+        raise StopLocust("Maximum number of requests reached")
 
 def on_report_to_master(client_id, data):
     data["stats"] = global_stats.serialize_stats()
