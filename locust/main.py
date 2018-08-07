@@ -285,6 +285,7 @@ def create_options(
         reset_stats=False,
         no_web=False,
         run_time=None,
+        num_requests=None,
         num_clients=1,
         hatch_rate=1,
         master=False,
@@ -348,6 +349,7 @@ def create_options(
     # No web
     opts.no_web=no_web
     opts.run_time=run_time
+    opts.run_requests=num_requests
     opts.num_clients=num_clients
     opts.hatch_rate=hatch_rate
 
