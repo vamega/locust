@@ -14,7 +14,7 @@ import locust
 from . import events, runners, web
 from .core import HttpLocust, Locust
 from .inspectlocust import get_task_ratio_dict, print_task_ratio
-from .log import console_logger, setup_logging
+from .log import console_logger, setup_logging, restore_std_streams
 from .runners import LocalLocustRunner, MasterLocustRunner, SlaveLocustRunner
 from .stats import (print_error_report, print_percentile_stats, print_stats,
                     stats_printer, stats_writer, write_stat_csvs)
@@ -659,7 +659,8 @@ def run_locust(options, arguments=[], cli_mode=False):
         if options.csvfilebase:
             write_stat_csvs(options.csvfilebase)
         print_error_report()
-    
+        restore_std_streams()
+
     # install SIGTERM handler
     def sig_term_handler():
         logger.info("Got SIGTERM signal")

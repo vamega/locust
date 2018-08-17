@@ -15,6 +15,12 @@ def setup_logging(loglevel, logfile):
     sys.stderr = StdErrWrapper()
     sys.stdout = StdOutWrapper()
 
+
+def restore_std_streams():
+    sys.stderr = sys.__stderr__
+    sys.stdout = sys.__stdout__
+
+
 stdout_logger = logging.getLogger("stdout")
 stderr_logger = logging.getLogger("stderr")
 
